@@ -30,10 +30,16 @@ manageTitles(List<List<dynamic>> data) {
   data[Row.Unit.index][Column.Category.index] = '.';
 }
 
-List<dynamic> search(String word, {int index = 1}) {
-  int i = data.indexWhere(
-      (row) => row[index].toLowerCase().contains(word.toLowerCase()));
-  return data[i];
+Iterable<List<dynamic>> search(String word, {int index = 1}) sync* {
+  int i = 0;
+  while (i != -1) {
+    print(i);
+    i = data.indexWhere(
+        (row) => row[index].toLowerCase().contains(word.toLowerCase()), i);
+    if (i != -1) {
+      yield data[i++];
+    }
+  }
 }
 
 String toString(List<dynamic> item) {
@@ -54,5 +60,7 @@ void main() async {
   String csv = await readFile(dataPath);
   data = const CsvToListConverter().convert(csv, fieldDelimiter: ';');
   manageTitles(data);
-  print(toString(search('geitmelk')));
+  for (List<dynamic> result in search("gjende kjeks")) {
+    print(result[Column.Name.index]);
+  }
 }
