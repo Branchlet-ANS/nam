@@ -37,8 +37,11 @@ List<dynamic> search(String word, {int index = 1}) {
 String toString(List<dynamic> item) {
   String string = '';
   for (Column column in Column.values) {
-    if (item[column.index] != null && item[column.index] is String) {
-      string += ': ' + item[column.index] + '\n';
+    if (item[column.index] != null) {
+      string += column.toString().substring(7) +
+          ': ' +
+          item[column.index].toString() +
+          '\n';
     }
   }
   return string;
