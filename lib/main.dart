@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
+import 'data.dart';
+import 'dart:async' show Future;
+import 'package:flutter/services.dart' show rootBundle;
 
-void main() {
+Data data = new Data();
+
+Future<String> loadAsset(String path) async {
+  return await rootBundle.loadString(path);
+}
+
+void main() async {
   runApp(MyApp());
+  data.dataString = await loadAsset(data.dataPath);
+  data.init();
 }
 
 class MyApp extends StatelessWidget {
@@ -11,15 +22,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -72,6 +74,13 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: Search());
+              })
+        ],
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -108,6 +117,57 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar:
+          BottomNavigationBar(items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings')
+      ]),
+      drawer: Drawer(),
+    );
+  }
+}
+
+class Search extends SearchDelegate {
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return <Widget>[
+      IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {
+            query = '';
+          })
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pop(context);
+        });
+  }
+
+  String selectedResult;
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Container(child: Center(child: Text(selectedResult)));
+  }
+
+  List<String> recentList = ['Text 1', 'Text 2'];
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> suggestionslist = [];
+    query.isEmpty
+        ? suggestionslist = recentList
+        : suggestionslist.addAll(data.searchString(query));
+    return ListView.builder(
+      itemCount: suggestionslist.length,
+      itemBuilder: (context, index) {
+        return ListTile(title: Text(suggestionslist[index]));
+      },
     );
   }
 }
