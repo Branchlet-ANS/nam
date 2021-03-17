@@ -25,7 +25,6 @@ void main() async {
 }
 
 List<String> search(String name) {
-  int index =
-      data.indexWhere((row) => (row[DataEnum.Name.index].contains[name]));
+  int index = data.indexWhere((row) => (row[Column.Name.index].contains[name]));
   return data[index];
 }
