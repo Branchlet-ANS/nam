@@ -38,10 +38,10 @@ String toString(List<dynamic> item) {
   String string = '';
   for (Column column in Column.values) {
     if (item[column.index] != null) {
-      string += data[Lines.Title.index][column.index] +
+      string += data[Row.Title.index][column.index] +
           ': ' +
           item[column.index].toString() +
-          data[Lines.Unit.index][column.index] +
+          data[Row.Unit.index][column.index] +
           '\n';
     }
   }
