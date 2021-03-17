@@ -43,22 +43,28 @@ class Data {
     data[Row.Unit.index][Column.Category.index] = '.';
   }
 
-  Iterable<List<dynamic>> search(String word, {int index = 1}) sync* {
+  Iterable<List<dynamic>> search(String words, {int index = 1}) sync* {
+    RegExp searchTerm = generateRegex(words);
     int i = 0;
     while (i != -1) {
       print(i);
       i = data.indexWhere(
-          (row) => row[index].toLowerCase().contains(word.toLowerCase()), i);
+          (row) => row[index].toLowerCase().contains(searchTerm), i);
       if (i != -1) {
         yield data[i++];
       }
     }
   }
 
-  Iterable<String> searchString(String word, {int index = 1}) sync* {
-    for (List<dynamic> item in search(word)) {
-      yield item[Column.Name.index];
+  RegExp generateRegex(String _words) {
+    _words = _words.toLowerCase();
+    if (_words.length > 3 && _words.substring(0, 3) == 'rx:') {
+      return new RegExp(_words.substring(3));
     }
+    _words = _words.replaceAll(new RegExp(r'[^\w\s]+'), '');
+    List<String> words = _words.split(' ');
+    String regex = '^((' + words.join('|') + ').*)+';
+    return new RegExp(regex);
   }
 
   String itemToString(List<dynamic> item, {ref = false}) {
@@ -74,5 +80,20 @@ class Data {
       }
     }
     return string;
+  }
+
+  Iterable<String> searchString(String word, {int index = 1}) sync* {
+    for (List<dynamic> item in search(word)) {
+      yield item[Column.Name.index];
+    }
+  }
+
+  void main() async {
+    String csv = await readFile(dataPath);
+    data = const CsvToListConverter().convert(csv, fieldDelimiter: ';');
+    manageTitles(data);
+    for (List<dynamic> result in search("mat")) {
+      print(result[Column.Name.index]);
+    }
   }
 }
