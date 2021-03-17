@@ -26,7 +26,7 @@ manageTitles(List<List<dynamic>> data) {
   for (List<dynamic> row in titleRows) {
     data.remove(row);
   }
-  data[Row.Category.index][Column.Category.index] = 'Kategori';
+  data[Row.Title.index][Column.Category.index] = 'Kategori';
   data[Row.Unit.index][Column.Category.index] = '.';
 }
 
