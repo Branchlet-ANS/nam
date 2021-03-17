@@ -115,7 +115,7 @@ enum Column {
   Ref55,
   Iodine,
   Ref56,
-  Title,
+  Category,
 }
 
-enum Lines { Title, Unit }
+enum Row { Title, Unit }
