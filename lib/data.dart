@@ -26,7 +26,7 @@ manageTitles(List<List<dynamic>> data) {
   for (List<dynamic> row in titleRows) {
     data.remove(row);
   }
-  data[Row.Category.index][Column.Category.index] = 'Kategori';
+  data[Row.Title.index][Column.Category.index] = 'Kategori';
   data[Row.Unit.index][Column.Category.index] = '.';
 }
 
@@ -40,8 +40,8 @@ String toString(List<dynamic> item, {ref = false}) {
   String string = '';
   for (Column column in Column.values) {
     if (item[column.index] != null &&
-        (ref || data[Row.Category.index][column.index] != 'Ref')) {
-      string += data[Row.Category.index][column.index] +
+        (ref || data[Row.Title.index][column.index] != 'Ref')) {
+      string += data[Row.Title.index][column.index] +
           ': ' +
           item[column.index].toString() +
           data[Row.Unit.index][column.index] +

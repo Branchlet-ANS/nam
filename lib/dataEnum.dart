@@ -118,4 +118,4 @@ enum Column {
   Category,
 }
 
-enum Row { Category, Unit }
+enum Row { Title, Unit }
