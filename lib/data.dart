@@ -21,11 +21,13 @@ manageTitles(List<List<dynamic>> data) {
       currentTitle = row[Column.Name.index];
       titleRows.add(row);
     }
-    row[Column.Title.index] = currentTitle;
+    row[Column.Category.index] = currentTitle;
   }
   for (List<dynamic> row in titleRows) {
     data.remove(row);
   }
+  data[Row.Category.index][Column.Category.index] = 'Kategori';
+  data[Row.Unit.index][Column.Category.index] = '.';
 }
 
 List<dynamic> search(String word, {int index = 1}) {
@@ -52,6 +54,5 @@ void main() async {
   String csv = await readFile(dataPath);
   data = const CsvToListConverter().convert(csv, fieldDelimiter: ';');
   manageTitles(data);
-  print(search("taco"));
-  print(toString(search("kardemomme")));
+  print(toString(search('geitmelk')));
 }
