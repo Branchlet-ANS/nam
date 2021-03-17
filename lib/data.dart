@@ -38,9 +38,10 @@ String toString(List<dynamic> item) {
   String string = '';
   for (Column column in Column.values) {
     if (item[column.index] != null) {
-      string += column.toString().substring(7) +
+      string += data[Lines.Title.index][column.index] +
           ': ' +
           item[column.index].toString() +
+          data[Lines.Unit.index][column.index] +
           '\n';
     }
   }
@@ -52,5 +53,5 @@ void main() async {
   data = const CsvToListConverter().convert(csv, fieldDelimiter: ';');
   manageTitles(data);
   print(search("taco"));
-  print(toString(search("taco")));
+  print(toString(search("kardemomme")));
 }

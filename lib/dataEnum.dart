@@ -117,3 +117,5 @@ enum Column {
   Ref56,
   Title,
 }
+
+enum Lines { Title, Unit }
