@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:csv/csv.dart';
 
-const String dataPath = 'resources/matvaretabellen.csv';
+const String dataPath = '\\resources\\matvaretabellen.csv';
 
-String readFile(path) {
+String readFile(String path) {
   String contents;
-  File(path).readAsString().then((String _contents) {
+  File(Directory.current.path + path).readAsString().then((String _contents) {
     contents = _contents;
   });
   return contents;
