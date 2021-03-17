@@ -42,10 +42,11 @@ Iterable<List<dynamic>> search(String word, {int index = 1}) sync* {
   }
 }
 
-String toString(List<dynamic> item) {
+String toString(List<dynamic> item, {ref = false}) {
   String string = '';
   for (Column column in Column.values) {
-    if (item[column.index] != null) {
+    if (item[column.index] != null &&
+        (ref || data[Row.Title.index][column.index] != 'Ref')) {
       string += data[Row.Title.index][column.index] +
           ': ' +
           item[column.index].toString() +
