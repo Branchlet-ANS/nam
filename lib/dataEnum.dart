@@ -114,5 +114,6 @@ enum Column {
   Phosphor,
   Ref55,
   Iodine,
-  Ref56
+  Ref56,
+  Title,
 }

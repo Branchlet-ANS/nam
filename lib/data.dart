@@ -13,18 +13,41 @@ Future<String> readFile(String path) async {
   });
 }
 
-void main() async {
-  String csv = await readFile(dataPath);
-  data = const CsvToListConverter().convert(csv, textDelimiter: ';');
-  print(data.length);
-  for (List row in data) {
-    for (String column in row) {
-      print(column);
+manageTitles(List<List<dynamic>> data) {
+  String currentTitle;
+  List<List<dynamic>> titleRows = [];
+  for (List<dynamic> row in data) {
+    if (row[Column.EdiblePart.index] == '') {
+      currentTitle = row[Column.Name.index];
+      titleRows.add(row);
     }
+    row[Column.Title.index] = currentTitle;
+  }
+  for (List<dynamic> row in titleRows) {
+    data.remove(row);
   }
 }
 
-List<String> search(String name) {
-  int index = data.indexWhere((row) => (row[Column.Name.index].contains[name]));
-  return data[index];
+List<dynamic> search(String word, {int index = 1}) {
+  int i = data.indexWhere(
+      (row) => row[index].toLowerCase().contains(word.toLowerCase()));
+  return data[i];
+}
+
+String toString(List<dynamic> item) {
+  String string = '';
+  for (Column column in Column.values) {
+    if (item[column.index] != null && item[column.index] is String) {
+      string += ': ' + item[column.index] + '\n';
+    }
+  }
+  return string;
+}
+
+void main() async {
+  String csv = await readFile(dataPath);
+  data = const CsvToListConverter().convert(csv, fieldDelimiter: ';');
+  manageTitles(data);
+  print(search("taco"));
+  print(toString(search("taco")));
 }
