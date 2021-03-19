@@ -1,19 +1,18 @@
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'dataEnum.dart';
+import 'package:flutter/services.dart' show rootBundle;
+
+Future<String> loadAsset(String path) async {
+  return await rootBundle.loadString(path);
+}
 
 class Data {
   String dataPath;
   List<List<dynamic>> data;
-  String dataString;
 
-  Data() {
-    dataPath = 'assets/res/matvaretabellen.csv';
-  }
-
-  void init() async {
-    String csv = dataString;
-    data = const CsvToListConverter().convert(csv, fieldDelimiter: ';');
+  Data(dataString) {
+    data = const CsvToListConverter().convert(dataString, fieldDelimiter: ';');
     manageTitles(data);
   }
 

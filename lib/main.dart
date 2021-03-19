@@ -3,7 +3,7 @@ import 'data.dart';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 
-Data data = new Data();
+Data data;
 
 Future<String> loadAsset(String path) async {
   return await rootBundle.loadString(path);
@@ -11,8 +11,8 @@ Future<String> loadAsset(String path) async {
 
 void main() async {
   runApp(MyApp());
-  data.dataString = await loadAsset(data.dataPath);
-  data.init();
+  String dataPath = 'assets/res/matvaretabellen.csv';
+  data = new Data(await loadAsset(dataPath));
 }
 
 class MyApp extends StatelessWidget {
