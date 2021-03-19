@@ -1,4 +1,4 @@
-import 'dataEnum.dart';
+import 'data_enum.dart';
 import 'ingredient.dart';
 
 class Meal {
@@ -16,7 +16,7 @@ class Meal {
     ingredients.add(ingredient);
   }
 
-  double getNutrientValue(Column number) {
+  double getNutrientValue(DataColumn number) {
     double sum = 0;
     for (Ingredient ingredient in ingredients) {
       sum += ingredient.getNutrientValue(number);

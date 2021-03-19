@@ -1,22 +1,45 @@
-import 'dataEnum.dart';
+import 'data_enum.dart';
+import 'package:enum_to_string/enum_to_string.dart';
+import 'data.dart';
 
 class Ingredient {
   List<dynamic> ingredient;
   double mass;
 
-  Ingredient(this.ingredient, this.mass);
+  Ingredient(this.ingredient, {this.mass = 100});
 
-  double getNutrientValue(Column number) {
-    if (![Column.ID, Column.Name, Column.Category].contains(number) &&
-        number.index % 2 == 0) {
-      return ingredient[number.index] * mass / 100;
+  double getNutrientValue(DataColumn column) {
+    if (![DataColumn.ID, DataColumn.Name, DataColumn.Category]
+            .contains(column) &&
+        column.index % 2 == 0) {
+      return ingredient[column.index] * mass / 100;
     } else {
       throw new FormatException(
-          "Name, Column, Category, Reference are not nutrient values.");
+          "ID, Name, Category and Reference are not nutrient values.");
     }
   }
 
   String getName() {
-    return ingredient[Column.Name.index];
+    return ingredient[DataColumn.Name.index];
+  }
+
+  getAttribute(DataColumn column) {
+    return ingredient[column.index];
+  }
+
+  @override
+  String toString({ref = false}) {
+    String string = '';
+    for (DataColumn column in DataColumn.values) {
+      String s = Data.getTitle(column);
+      if (getAttribute(column) != null && (ref || s != 'Ref')) {
+        string += Data.getTitle(column) +
+            ': ' +
+            getAttribute(column) +
+            Data.getUnit(column) +
+            '\n';
+      }
+    }
+    return string;
   }
 }

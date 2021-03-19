@@ -3,7 +3,9 @@ import 'data.dart';
 
 class Search extends SearchDelegate {
   Data data;
+
   Search(this.data);
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[

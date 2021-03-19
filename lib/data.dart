@@ -1,52 +1,50 @@
-import 'dart:io';
 import 'package:csv/csv.dart';
-import 'dataEnum.dart';
-import 'package:flutter/services.dart' show rootBundle;
-
-Future<String> loadAsset(String path) async {
-  return await rootBundle.loadString(path);
-}
+import 'package:nam/ingredient.dart';
+import 'data_enum.dart';
 
 class Data {
-  String dataPath;
-  List<List<dynamic>> data;
+  static List<List<dynamic>> data;
+  List<Ingredient> ingredients;
 
   Data(dataString) {
-    data = const CsvToListConverter().convert(dataString, fieldDelimiter: ';');
-    manageTitles(data);
+    ingredients = [];
+    data = CsvToListConverter().convert(dataString, fieldDelimiter: ';');
+    manageData(data);
+    for (List<dynamic> ingredientData in data) {
+      ingredients.add(new Ingredient(ingredientData));
+    }
   }
 
-  Future<String> readFile(String path) async {
-    return File(path).readAsString().then((String contents) {
-      return contents;
-    });
-  }
-
-  manageTitles(List<List<dynamic>> data) {
+  manageData(List<List<dynamic>> data) {
     String currentTitle;
     List<List<dynamic>> titleRows = [];
     for (List<dynamic> row in data) {
-      if (row[Column.EdiblePart.index] == '') {
-        currentTitle = row[Column.Name.index];
+      if (row[DataColumn.EdiblePart.index] == '') {
+        currentTitle = row[DataColumn.Name.index];
         titleRows.add(row);
       }
-      row[Column.Category.index] = currentTitle;
+      row[DataColumn.Category.index] = currentTitle;
     }
     for (List<dynamic> row in titleRows) {
       data.remove(row);
     }
-    data[Row.Title.index][Column.Category.index] = 'Kategori';
-    data[Row.Unit.index][Column.Category.index] = '.';
+    data[DataRow.Title.index][DataColumn.Category.index] = 'Kategori';
+    data[DataRow.Unit.index][DataColumn.Category.index] = '.';
   }
 
-  Iterable<List<dynamic>> search(String words, {int index = 1}) sync* {
+  Iterable<Ingredient> search(String words,
+      {DataColumn column = DataColumn.Name}) sync* {
     RegExp searchTerm = generateRegex(words);
     int i = 0;
     while (i != -1) {
-      i = data.indexWhere(
-          (row) => row[index].toLowerCase().contains(searchTerm), i);
+      i = ingredients.indexWhere(
+          (ingredient) => ingredient
+              .getAttribute(column)
+              .toLowerCase()
+              .contains(searchTerm),
+          i);
       if (i != -1) {
-        yield data[i++];
+        yield ingredients[i++];
       }
     }
   }
@@ -62,30 +60,17 @@ class Data {
     return new RegExp(regex);
   }
 
-  String itemToString(List<dynamic> item, {ref = false}) {
-    String string = '';
-    for (Column column in Column.values) {
-      if (item[column.index] != null &&
-          (ref || data[Row.Title.index][column.index] != 'Ref')) {
-        string += data[Row.Title.index][column.index] +
-            ': ' +
-            item[column.index].toString() +
-            data[Row.Unit.index][column.index] +
-            '\n';
-      }
-    }
-    return string;
-  }
-
   Iterable<String> searchString(String word, {int index = 1}) sync* {
-    for (List<dynamic> item in search(word)) {
-      yield item[Column.Name.index];
+    for (Ingredient ingredient in search(word)) {
+      yield ingredient.getName();
     }
   }
 
-  void main() async {
-    String csv = await readFile(dataPath);
-    data = const CsvToListConverter().convert(csv, fieldDelimiter: ';');
-    manageTitles(data);
+  static String getTitle(DataColumn column) {
+    return data[DataRow.Title.index][column.index];
+  }
+
+  static String getUnit(DataColumn column) {
+    return data[DataRow.Unit.index][column.index];
   }
 }
