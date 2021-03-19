@@ -166,7 +166,13 @@ class Search extends SearchDelegate {
     return ListView.builder(
       itemCount: suggestionslist.length,
       itemBuilder: (context, index) {
-        return ListTile(title: Text(suggestionslist[index]));
+        return ListTile(
+          title: Text(suggestionslist[index]),
+          hoverColor: Colors.green,
+          onTap: () {
+            print(data.search(suggestionslist[index]));
+          },
+        );
       },
     );
   }

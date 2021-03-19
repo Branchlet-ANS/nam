@@ -15,9 +15,6 @@ class Data {
     String csv = dataString;
     data = const CsvToListConverter().convert(csv, fieldDelimiter: ';');
     manageTitles(data);
-    for (List<dynamic> result in search("gjende kjeks")) {
-      print(result[Column.Name.index]);
-    }
   }
 
   Future<String> readFile(String path) async {
@@ -47,7 +44,6 @@ class Data {
     RegExp searchTerm = generateRegex(words);
     int i = 0;
     while (i != -1) {
-      print(i);
       i = data.indexWhere(
           (row) => row[index].toLowerCase().contains(searchTerm), i);
       if (i != -1) {
@@ -92,8 +88,5 @@ class Data {
     String csv = await readFile(dataPath);
     data = const CsvToListConverter().convert(csv, fieldDelimiter: ';');
     manageTitles(data);
-    for (List<dynamic> result in search("mat")) {
-      print(result[Column.Name.index]);
-    }
   }
 }
