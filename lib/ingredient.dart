@@ -23,7 +23,7 @@ class Ingredient {
     return ingredient[DataColumn.Name.index];
   }
 
-  getAttribute(DataColumn column) {
+  dynamic getAttribute(DataColumn column) {
     return ingredient[column.index];
   }
 
@@ -35,7 +35,7 @@ class Ingredient {
       if (getAttribute(column) != null && (ref || s != 'Ref')) {
         string += Data.getTitle(column) +
             ': ' +
-            getAttribute(column) +
+            getAttribute(column).toString() +
             Data.getUnit(column) +
             '\n';
       }

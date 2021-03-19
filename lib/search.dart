@@ -48,7 +48,8 @@ class Search extends SearchDelegate {
           title: Text(suggestionslist[index]),
           hoverColor: Colors.green,
           onTap: () {
-            print(data.search(suggestionslist[index]));
+            print(data.ingredients.firstWhere((ingredient) =>
+                ingredient.getName() == suggestionslist[index]));
           },
         );
       },
