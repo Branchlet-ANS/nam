@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'data.dart';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
+import 'search.dart';
 
 Data data;
 
@@ -78,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                showSearch(context: context, delegate: Search());
+                showSearch(context: context, delegate: Search(data));
               })
         ],
       ),
@@ -123,57 +124,6 @@ class _MyHomePageState extends State<MyHomePage> {
         BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings')
       ]),
       drawer: Drawer(),
-    );
-  }
-}
-
-class Search extends SearchDelegate {
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return <Widget>[
-      IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {
-            query = '';
-          })
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.pop(context);
-        });
-  }
-
-  String selectedResult;
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Container(child: Center(child: Text(selectedResult)));
-  }
-
-  List<String> recentList = ['Text 1', 'Text 2'];
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> suggestionslist = [];
-    query.isEmpty
-        ? suggestionslist = recentList
-        : suggestionslist.addAll(data.searchString(query));
-    return ListView.builder(
-      itemCount: suggestionslist.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(suggestionslist[index]),
-          hoverColor: Colors.green,
-          onTap: () {
-            print(data.search(suggestionslist[index]));
-          },
-        );
-      },
     );
   }
 }
