@@ -31,7 +31,7 @@ class Search extends SearchDelegate {
     return Container(child: Center(child: Text(selectedResult)));
   }
 
-  List<String> recentList = ['Text 1', 'Text 2'];
+  List<String> recentList = [];
 
   @override
   Widget buildSuggestions(BuildContext context) {
