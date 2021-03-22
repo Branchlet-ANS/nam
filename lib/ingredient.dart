@@ -19,6 +19,10 @@ class Ingredient {
     }
   }
 
+  double getMass() {
+    return mass;
+  }
+
   String getName() {
     return ingredient[DataColumn.Name.index];
   }

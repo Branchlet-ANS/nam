@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:nam/data_enum.dart';
 import 'data.dart';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
+import 'meal.dart';
 import 'search.dart';
+import 'data_enum.dart' as de;
 
 Data data;
+Meal meal = new Meal();
 
 Future<String> loadAsset(String path) async {
   return await rootBundle.loadString(path);
@@ -47,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                showSearch(context: context, delegate: Search(data));
+                showSearch(context: context, delegate: Search(data, meal));
               })
         ],
       ),
@@ -58,6 +62,15 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'En godting.',
             ),
+            Text(
+              'Protein: ' +
+                  meal.getNutrientValue(de.DataColumn.Protein).toString(),
+            ),
+            Text(
+              'Carbs: ' +
+                  meal.getNutrientValue(de.DataColumn.Carbohydrate).toString(),
+            ),
+            Text('Mass: ' + meal.getMass().toString()),
           ],
         ),
       ),
