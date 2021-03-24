@@ -1,5 +1,4 @@
 import 'data_enum.dart';
-import 'package:enum_to_string/enum_to_string.dart';
 import 'data.dart';
 
 class Ingredient {
