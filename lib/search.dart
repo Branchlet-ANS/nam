@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'data.dart';
+import 'ingredient.dart';
+import 'meal.dart';
+import 'data_enum.dart' as de;
 
 class Search extends SearchDelegate {
   Data data;
+  Meal meal;
 
-  Search(this.data);
+  Search(this.data, this.meal);
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -48,8 +52,10 @@ class Search extends SearchDelegate {
           title: Text(suggestionslist[index]),
           hoverColor: Colors.green,
           onTap: () {
-            print(data.ingredients.firstWhere((ingredient) =>
-                ingredient.getName() == suggestionslist[index]));
+            //meal.addIngredient(data.search(suggestionslist[index]).first, 100);
+            print(meal.getIngredients());
+            //print(data.ingredients.firstWhere((ingredient) =>
+            //    ingredient.getName() == suggestionslist[index]));
           },
         );
       },
