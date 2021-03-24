@@ -49,7 +49,7 @@ class Search extends SearchDelegate {
         return ListTile(
           title: Text(suggestionslist[index]),
           hoverColor: Colors.green,
-          onTap: () {
+          onTap: () async {
             Ingredient ingredient = data.ingredients.firstWhere(
                 (ingredient) => ingredient.getName() == suggestionslist[index]);
             function.call(ingredient);

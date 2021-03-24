@@ -41,17 +41,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<MealWidget> meals = [new MealWidget()];
+  List<Meal> meals = [new Meal()];
 
   void _updateMeal(Ingredient ingredient) {
     setState(() {
-      //meals.last.meal.addIngredient(ingredient, 100);
+      meals.last.addIngredient(ingredient, 100);
     });
   }
 
   void _newMeal() {
     setState(() {
-      meals.add(new MealWidget());
+      meals.add(
+        new Meal(),
+      );
     });
   }
 
@@ -70,9 +72,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: meals,
+        child: ListView.builder(
+          itemCount: meals.length,
+          itemBuilder: (BuildContext context, int index) {
+            return MealWidget(
+              meal: meals[index],
+            );
+          },
         ),
       ),
       bottomNavigationBar:
@@ -90,13 +96,14 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class MealWidget extends StatefulWidget {
+  const MealWidget({Key key, this.meal}) : super(key: key);
+  final Meal meal;
+
   @override
   _MealWidgetState createState() => _MealWidgetState();
 }
 
 class _MealWidgetState extends State<MealWidget> {
-  Meal meal = new Meal();
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -115,21 +122,23 @@ class _MealWidgetState extends State<MealWidget> {
               ),
               Text(
                 'Protein: ' +
-                    meal.getNutrientValue(de.DataColumn.Protein).toString(),
+                    widget.meal
+                        .getNutrientValue(de.DataColumn.Protein)
+                        .toString(),
               ),
               SizedBox(
                 height: 10,
               ),
               Text(
                 'Carbs: ' +
-                    meal
+                    widget.meal
                         .getNutrientValue(de.DataColumn.Carbohydrate)
                         .toString(),
               ),
               SizedBox(
                 height: 10,
               ),
-              Text('Mass: ' + meal.getMass().toString())
+              Text('Mass: ' + widget.meal.getMass().toString())
             ]),
       ),
     );
