@@ -31,7 +31,11 @@ class Ingredient {
   }
 
   @override
-  String toString({ref = false}) {
+  String toString() {
+    return getName();
+  }
+
+  String info({ref = false}) {
     String string = '';
     for (DataColumn column in DataColumn.values) {
       String s = Data.getTitle(column);

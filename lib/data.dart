@@ -60,12 +60,6 @@ class Data {
     return new RegExp(regex);
   }
 
-  Iterable<String> searchString(String word, {int index = 1}) sync* {
-    for (Ingredient ingredient in search(word)) {
-      yield ingredient.getName();
-    }
-  }
-
   static String getTitle(DataColumn column) {
     return data[DataRow.Title.index][column.index];
   }

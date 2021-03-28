@@ -43,12 +43,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<Meal> meals = [new Meal()];
 
-  void _updateMeal(Ingredient ingredient) {
-    setState(() {
-      meals.last.addIngredient(ingredient, 100);
-    });
-  }
-
   void _newMeal() {
     setState(() {
       meals.add(
@@ -66,8 +60,12 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                showSearch(
-                    context: context, delegate: Search(data, _updateMeal));
+                showSearch(context: context, delegate: Search(data))
+                    .then((ingredient) => setState(() {
+                          if (ingredient != null) {
+                            meals.last.addIngredient(ingredient, 100);
+                          }
+                        }));
               })
         ],
       ),
