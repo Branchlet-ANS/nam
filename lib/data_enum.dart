@@ -5,9 +5,9 @@ enum Column {
   Ref0,
   Water,
   Ref1,
-  Kj,
+  Kilojoules,
   Ref2,
-  Kcal,
+  Kilocalories,
   Ref3,
   Fat,
   Ref4,
@@ -53,7 +53,7 @@ enum Column {
   Ref24,
   Omega6,
   Ref25,
-  Cholestrol,
+  Cholesterol,
   Ref26,
   Carbohydrate,
   Ref27,
@@ -63,7 +63,7 @@ enum Column {
   Ref29,
   SugarAdded,
   Ref30,
-  Fiber,
+  DietaryFiber,
   Ref31,
   Protein,
   Ref32,
@@ -119,3 +119,34 @@ enum Column {
 }
 
 enum Row { Title, Unit }
+
+enum Row18 {
+  Title,
+  VitaminA,
+  VitaminD,
+  VitaminE,
+  Thiamin,
+  Riboflavin,
+  Niacin,
+  VitaminB6,
+  Folate,
+  VitaminB12,
+  VitaminC,
+  Calcium,
+  Phosphorus,
+  Ptoassium,
+  Iron,
+  Zinc,
+  Copper,
+  Iodine,
+  Selenium,
+}
+
+enum Column18 {
+  Nutrient,
+  Unit,
+  LI_W,
+  AR_W,
+  LI_M,
+  AR_M,
+}
