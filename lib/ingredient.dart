@@ -1,4 +1,4 @@
-import 'data_enum.dart';
+import 'data_enum.dart' as de;
 import 'data.dart';
 
 class Ingredient {
@@ -7,9 +7,8 @@ class Ingredient {
 
   Ingredient(this.ingredient, {this.mass = 100});
 
-  double getNutrientValue(DataColumn column) {
-    if (![DataColumn.ID, DataColumn.Name, DataColumn.Category]
-            .contains(column) &&
+  double getNutrientValue(de.Column column) {
+    if (![de.Column.ID, de.Column.Name, de.Column.Category].contains(column) &&
         column.index % 2 == 0) {
       return ingredient[column.index] * mass / 100;
     } else {
@@ -23,10 +22,10 @@ class Ingredient {
   }
 
   String getName() {
-    return ingredient[DataColumn.Name.index];
+    return ingredient[de.Column.Name.index];
   }
 
-  dynamic getAttribute(DataColumn column) {
+  dynamic getAttribute(de.Column column) {
     return ingredient[column.index];
   }
 
@@ -37,7 +36,7 @@ class Ingredient {
 
   String info({ref = false}) {
     String string = '';
-    for (DataColumn column in DataColumn.values) {
+    for (de.Column column in de.Column.values) {
       String s = Data.getTitle(column);
       if (getAttribute(column) != null && (ref || s != 'Ref')) {
         string += Data.getTitle(column) +

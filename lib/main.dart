@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nam/ingredient.dart';
 import 'data.dart';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'meal.dart';
 import 'search.dart';
-import 'data_enum.dart' as de;
 
 Data data;
 
@@ -88,56 +86,6 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _newMeal,
         child: Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class MealWidget extends StatefulWidget {
-  const MealWidget({Key key, this.meal}) : super(key: key);
-  final Meal meal;
-
-  @override
-  _MealWidgetState createState() => _MealWidgetState();
-}
-
-class _MealWidgetState extends State<MealWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.blue,
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'En godting.',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Protein: ' +
-                    widget.meal
-                        .getNutrientValue(de.DataColumn.Protein)
-                        .toString(),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Carbs: ' +
-                    widget.meal
-                        .getNutrientValue(de.DataColumn.Carbohydrate)
-                        .toString(),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text('Mass: ' + widget.meal.getMass().toString())
-            ]),
       ),
     );
   }

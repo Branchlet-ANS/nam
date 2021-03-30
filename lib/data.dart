@@ -1,6 +1,6 @@
 import 'package:csv/csv.dart';
 import 'package:nam/ingredient.dart';
-import 'data_enum.dart';
+import 'data_enum.dart' as de;
 
 class Data {
   static List<List<dynamic>> data;
@@ -19,21 +19,21 @@ class Data {
     String currentTitle;
     List<List<dynamic>> titleRows = [];
     for (List<dynamic> row in data) {
-      if (row[DataColumn.EdiblePart.index] == '') {
-        currentTitle = row[DataColumn.Name.index];
+      if (row[de.Column.EdiblePart.index] == '') {
+        currentTitle = row[de.Column.Name.index];
         titleRows.add(row);
       }
-      row[DataColumn.Category.index] = currentTitle;
+      row[de.Column.Category.index] = currentTitle;
     }
     for (List<dynamic> row in titleRows) {
       data.remove(row);
     }
-    data[DataRow.Title.index][DataColumn.Category.index] = 'Kategori';
-    data[DataRow.Unit.index][DataColumn.Category.index] = '.';
+    data[de.Row.Title.index][de.Column.Category.index] = 'Kategori';
+    data[de.Row.Unit.index][de.Column.Category.index] = '.';
   }
 
   Iterable<Ingredient> search(String words,
-      {DataColumn column = DataColumn.Name}) sync* {
+      {de.Column column = de.Column.Name}) sync* {
     RegExp searchTerm = generateRegex(words);
     int i = 0;
     while (i != -1) {
@@ -60,11 +60,11 @@ class Data {
     return new RegExp(regex);
   }
 
-  static String getTitle(DataColumn column) {
-    return data[DataRow.Title.index][column.index];
+  static String getTitle(de.Column column) {
+    return data[de.Row.Title.index][column.index];
   }
 
-  static String getUnit(DataColumn column) {
-    return data[DataRow.Unit.index][column.index];
+  static String getUnit(de.Column column) {
+    return data[de.Row.Unit.index][column.index];
   }
 }

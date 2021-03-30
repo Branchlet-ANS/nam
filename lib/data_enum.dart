@@ -1,4 +1,4 @@
-enum DataColumn {
+enum Column {
   ID,
   Name,
   EdiblePart,
@@ -118,4 +118,4 @@ enum DataColumn {
   Category,
 }
 
-enum DataRow { Title, Unit }
+enum Row { Title, Unit }
