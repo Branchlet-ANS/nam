@@ -3,14 +3,14 @@ import 'package:nam/ingredient.dart';
 import 'data_enum.dart' as de;
 
 class Data {
-  static List<List<dynamic>> data;
+  static List<List<dynamic>> _data;
   List<Ingredient> ingredients;
 
-  Data(dataString) {
+  Data(String dataString) {
     ingredients = [];
-    data = CsvToListConverter().convert(dataString, fieldDelimiter: ';');
-    manageData(data);
-    for (List<dynamic> ingredientData in data) {
+    _data = CsvToListConverter().convert(dataString, fieldDelimiter: ';');
+    manageData(_data);
+    for (List<dynamic> ingredientData in _data) {
       ingredients.add(new Ingredient(ingredientData));
     }
   }
@@ -61,10 +61,34 @@ class Data {
   }
 
   static String getTitle(de.Column column) {
-    return data[de.Row.Title.index][column.index];
+    return _data[de.Row.Title.index][column.index];
   }
 
   static String getUnit(de.Column column) {
-    return data[de.Row.Unit.index][column.index];
+    return _data[de.Row.Unit.index][column.index];
+  }
+}
+
+class Recommended {
+  static List<List<dynamic>> _data;
+
+  Recommended(String data) {
+    _data = CsvToListConverter().convert(data, fieldDelimiter: ';');
+  }
+
+  static dynamic getValue(de.Row18 row, de.Column18 col) {
+    if (_data == null ||
+        col.index >= _data.length ||
+        row.index >= _data[col.index].length) {
+      return null;
+    }
+    return _data[row.index][col.index];
+  }
+
+  static String getUnit(de.Row18 row) {
+    if (_data == null) {
+      return '';
+    }
+    return _data[row.index][de.Column18.Unit.index];
   }
 }

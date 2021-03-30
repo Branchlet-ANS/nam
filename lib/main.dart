@@ -6,6 +6,7 @@ import 'meal.dart';
 import 'search.dart';
 
 Data data;
+Recommended recommended;
 
 Future<String> loadAsset(String path) async {
   return await rootBundle.loadString(path);
@@ -15,6 +16,8 @@ void main() async {
   runApp(MyApp());
   String dataPath = 'assets/res/matvaretabellen.csv';
   data = new Data(await loadAsset(dataPath));
+  String recommendedPath = 'assets/res/table_1_8.csv';
+  recommended = new Recommended(await loadAsset(recommendedPath));
 }
 
 class MyApp extends StatelessWidget {
