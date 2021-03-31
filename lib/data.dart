@@ -61,6 +61,9 @@ class Data {
   }
 
   static String getTitle(de.Column column) {
+    if (_data == null) {
+      return '';
+    }
     return _data[de.Row.Title.index][column.index];
   }
 
@@ -78,8 +81,8 @@ class Recommended {
 
   static dynamic getValue(de.Row18 row, de.Column18 col) {
     if (_data == null ||
-        col.index >= _data.length ||
-        row.index >= _data[col.index].length) {
+        row.index >= _data.length ||
+        col.index >= _data[col.index].length) {
       return null;
     }
     return _data[row.index][col.index];
