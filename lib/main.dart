@@ -28,20 +28,20 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Nam'),
+      home: MealsPage(title: 'Nam'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class MealsPage extends StatefulWidget {
+  MealsPage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MealsPageState createState() => _MealsPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MealsPageState extends State<MealsPage> {
   List<Meal> meals = [new Meal()];
 
   void _newMeal() {
@@ -80,11 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
-      bottomNavigationBar:
-          BottomNavigationBar(items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings')
-      ]),
+      bottomNavigationBar: myBottomNavigationBar(),
       drawer: Drawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: _newMeal,
@@ -92,4 +88,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+Widget myBottomNavigationBar() {
+  return BottomNavigationBar(items: const <BottomNavigationBarItem>[
+    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+    BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings')
+  ]);
 }

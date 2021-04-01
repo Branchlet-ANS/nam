@@ -1,3 +1,5 @@
+import 'package:nam/data.dart';
+
 import 'data_enum.dart' as de;
 import 'ingredient.dart';
 import 'package:flutter/material.dart';
@@ -84,9 +86,35 @@ class _MealWidgetState extends State<MealWidget> {
               SizedBox(
                 height: 10,
               ),
-              Text('Mass: ' + widget.meal.getMass().toString())
+              Text('Mass: ' + widget.meal.getMass().toString()),
+              SizedBox(
+                height: 10,
+              ),
+              nutrient(de.Column.VitaminA, de.Row18.VitaminA),
+              SizedBox(
+                height: 10,
+              ),
+              nutrient(de.Column.Iron, de.Row18.Iron),
+              SizedBox(
+                height: 10,
+              ),
+              nutrient(de.Column.Calcium, de.Row18.Calcium),
+              SizedBox(
+                height: 10,
+              ),
+              nutrient(de.Column.Potassium, de.Row18.Potassium),
             ]),
       ),
     );
+  }
+
+  Widget nutrient(de.Column col, de.Row18 row) {
+    return Text(Data.getTitle(col) +
+        ': ' +
+        widget.meal.getNutrientValue(col).toString() +
+        ' / ' +
+        Recommended.getValue(row, de.Column18.AR_M).toString() +
+        ' ' +
+        Recommended.getUnit(row));
   }
 }
