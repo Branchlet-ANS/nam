@@ -91,34 +91,47 @@ Widget _mealsBody(meals) {
 
 Widget _userBody() {
   return Center(
-      child: Column(
-    children: [
-      SizedBox(height: 100),
-      Text("Name"),
-      Container(
-          width: 100,
-          height: 100,
-          child: TextFormField(
-            initialValue: Global.getUser().getName(),
-            onFieldSubmitted: (value) => Global.getUser().setName(value),
-          )),
-      Text("Sex"),
-      Container(
-          width: 100,
-          height: 100,
-          child: TextFormField(
-            initialValue: Global.getUser().getSex() ? "Male" : "Female",
-            onFieldSubmitted: (value) => Global.getUser().setSex(value as bool),
-          )),
-      Text("Weight"),
-      Container(
-          width: 100,
-          height: 100,
-          child: TextFormField(
-            initialValue: Global.getUser().getWeight().toString(),
-            onFieldSubmitted: (value) =>
-                Global.getUser().setWeight(value as double),
-          ))
-    ],
-  ));
+      child: Padding(
+          padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
+          child: ListView(
+            children: [
+              SizedBox(height: 100),
+              Text("Name"),
+              Container(
+                  width: 100,
+                  height: 100,
+                  child: TextFormField(
+                    initialValue: Global.getUser().getName(),
+                    onFieldSubmitted: (value) =>
+                        Global.getUser().setName(value),
+                  )),
+              Text("Sex"),
+              Container(
+                  width: 100,
+                  height: 100,
+                  child: TextFormField(
+                    initialValue: Global.getUser().getSex() ? "Male" : "Female",
+                    onFieldSubmitted: (value) =>
+                        Global.getUser().setSex(value as bool),
+                  )),
+              Text("Weight"),
+              Container(
+                  width: 100,
+                  height: 100,
+                  child: TextFormField(
+                    initialValue: Global.getUser().getWeight().toString(),
+                    onFieldSubmitted: (value) =>
+                        Global.getUser().setWeight(value as double),
+                  )),
+              Text("Daily Kilocalories"),
+              Container(
+                  width: 100,
+                  height: 100,
+                  child: TextFormField(
+                    initialValue: Global.getUser().getKilocalories().toString(),
+                    onFieldSubmitted: (value) =>
+                        Global.getUser().setKilocalories(value as double),
+                  ))
+            ],
+          )));
 }
