@@ -3,14 +3,16 @@ import 'data.dart';
 
 class Ingredient {
   List<dynamic> ingredient;
-  double mass;
+  double _mass;
 
-  Ingredient(this.ingredient, {this.mass = 100});
+  Ingredient(this.ingredient, {mass = 100.0}) {
+    _mass = mass;
+  }
 
   double getNutrientValue(de.Column column) {
     if (![de.Column.ID, de.Column.Name, de.Column.Category].contains(column) &&
         column.index % 2 == 0) {
-      return ingredient[column.index] * mass / 100;
+      return ingredient[column.index] * _mass / 100;
     } else {
       throw new FormatException(
           "ID, Name, Category and Reference are not nutrient values.");
@@ -18,7 +20,11 @@ class Ingredient {
   }
 
   double getMass() {
-    return mass;
+    return _mass;
+  }
+
+  void setMass(double mass) {
+    _mass = mass;
   }
 
   String getName() {
