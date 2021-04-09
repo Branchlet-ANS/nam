@@ -62,11 +62,7 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: <Widget>[
-        _mealsBody(meals),
-        _userBody(),
-        _mealBody(selectedMeal)
-      ][_navIndex],
+      body: <Widget>[_mealsBody(meals), _userBody()][Global.getNavIndex()],
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: Global.getNavIndex(),
           onTap: (value) => setState(() => Global.setNavIndex(value)),
@@ -87,7 +83,7 @@ Widget _mealsBody(meals) {
   return Center(
       child: GestureDetector(
     onTap: () {
-      Global.setNavIndex(2);
+      //add code to change window
     },
     child: ListView.builder(
       itemCount: meals.length,
