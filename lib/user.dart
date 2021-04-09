@@ -31,7 +31,7 @@ class User {
   }
 
   double getKilocalories() {
-    return _weight;
+    return _kilocalories;
   }
 
   void setKilocalories(double kilocalories) {
