@@ -55,9 +55,9 @@ class Data {
     if (_words.length > 3 && _words.substring(0, 3) == 'rx:') {
       return new RegExp(_words.substring(3));
     }
-    _words = _words.replaceAll(new RegExp(r'[^\w\s]+'), 'NONE_IDENTIFIER');
+    _words = _words.replaceAll(new RegExp(r'[^\w\sæøå]+'), 'NONE_IDENTIFIER');
     List<String> words = _words.split(' ');
-    String regex = '^((' + words.join('|') + ').*)+';
+    String regex = '^.*((' + words.join('|') + ').*)+';
     return new RegExp(regex);
   }
 

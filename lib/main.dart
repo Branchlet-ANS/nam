@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'data.dart';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'global.dart';
 import 'meal.dart';
 import 'user.dart';
+import 'data_enum.dart' as de;
 
 Future<String> loadAsset(String path) async {
   return await rootBundle.loadString(path);
@@ -44,6 +48,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   List<Meal> meals = [new Meal()];
   int _navIndex = 0;
+  Meal selectedMeal;
 
   void _newMeal() {
     setState(() {
@@ -59,7 +64,11 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: <Widget>[_mealsBody(meals), _userBody()][_navIndex],
+      body: <Widget>[
+        _mealsBody(meals),
+        _userBody(),
+        _mealBody(selectedMeal)
+      ][_navIndex],
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _navIndex,
           onTap: (value) => setState(() => _navIndex = value),
@@ -78,6 +87,10 @@ class _MainPageState extends State<MainPage> {
 
 Widget _mealsBody(meals) {
   return Center(
+      child: GestureDetector(
+    onTap: () {
+      Global.setNavIndex(2);
+    },
     child: ListView.builder(
       itemCount: meals.length,
       itemBuilder: (BuildContext context, int index) {
@@ -86,7 +99,7 @@ Widget _mealsBody(meals) {
         );
       },
     ),
-  );
+  ));
 }
 
 Widget _userBody() {
@@ -121,4 +134,42 @@ Widget _userBody() {
           ))
     ],
   ));
+}
+
+Widget _mealBody(Meal meal) {
+  List<int> mealValues = <int>[
+    getNutrientPercentage(meal, de.Column.Iron, de.Row18.Iron),
+    getNutrientPercentage(meal, de.Column.VitaminA, de.Row18.VitaminA),
+    getNutrientPercentage(meal, de.Column.VitaminD, de.Row18.VitaminD)
+  ];
+  return Center(
+      child: Column(children: [
+    SizedBox(height: 100),
+    Text("Meal"),
+    Container(
+        width: 350,
+        height: 350,
+        child: RadarChart.light(ticks: <int>[
+          0,
+          25,
+          50,
+          75,
+          100
+        ], features: <String>[
+          "Jern",
+          "Vit A",
+          "Vit D",
+        ], data: [
+          mealValues
+        ], reverseAxis: false, useSides: true))
+  ]));
+}
+
+int getNutrientPercentage(meal, de.Column col, de.Row18 row) {
+  return min(
+      100,
+      (100 *
+              meal.getNutrientValue(col) /
+              Recommended.getValue(row, de.Column18.AR_M))
+          .round());
 }

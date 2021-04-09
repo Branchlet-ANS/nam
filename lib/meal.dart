@@ -76,22 +76,6 @@ class _MealWidgetState extends State<MealWidget> {
                 widget.meal.toString(),
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
-              Container(
-                  width: 350,
-                  height: 350,
-                  child: RadarChart.light(ticks: <int>[
-                    0,
-                    25,
-                    50,
-                    75,
-                    100
-                  ], features: <String>[
-                    "Jern",
-                    "Vit A",
-                    "Vit D",
-                  ], data: [
-                    mealValues
-                  ], reverseAxis: false, useSides: true)),
 
               /*nutrient(de.Column.VitaminA, de.Row18.VitaminA),
               SizedBox(
