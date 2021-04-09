@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nam/ingredient.dart';
 import 'data.dart';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
@@ -100,18 +101,17 @@ Widget _userBody() {
                   width: 100,
                   height: 100,
                   child: TextFormField(
-                    initialValue: Global.getUser().getName(),
-                    onFieldSubmitted: (value) =>
-                        Global.getUser().setName(value),
-                  )),
+                      initialValue: Global.getUser().getName(),
+                      onFieldSubmitted: (value) {
+                        Global.getUser().setName(value);
+                      })),
               Text("Sex"),
               Container(
                   width: 100,
                   height: 100,
                   child: TextFormField(
                     initialValue: Global.getUser().getSex() ? "Male" : "Female",
-                    onFieldSubmitted: (value) =>
-                        Global.getUser().setSex(value as bool),
+                    onFieldSubmitted: (value) => Global.getUser().setSex(false),
                   )),
               Text("Weight"),
               Container(
@@ -120,7 +120,7 @@ Widget _userBody() {
                   child: TextFormField(
                     initialValue: Global.getUser().getWeight().toString(),
                     onFieldSubmitted: (value) =>
-                        Global.getUser().setWeight(value as double),
+                        Global.getUser().setWeight(double.parse(value)),
                   )),
               Text("Daily Kilocalories"),
               Container(
@@ -128,28 +128,53 @@ Widget _userBody() {
                   height: 100,
                   child: TextFormField(
                     initialValue: Global.getUser().getKilocalories().toString(),
-                    onFieldSubmitted: (value) =>
-                        Global.getUser().setKilocalories(value as double),
+                    onFieldSubmitted: (value) {
+                      Global.getUser().setKilocalories(double.parse(value));
+                    },
                   ))
             ],
           )));
 }
 
-Widget _selectMassBody() {
-  double mass = 0;
-  return Center(
-    child: ListView(
-      children: [
-        Text("Select mass:"),
-        TextField(
-          onSubmitted: (value) => mass = value as double,
+class SelectMassPage extends StatefulWidget {
+  final Meal meal;
+  final Ingredient ingredient;
+
+  SelectMassPage(this.meal, this.ingredient);
+
+  @override
+  State<StatefulWidget> createState() => _SelectMassPageState();
+}
+
+class _SelectMassPageState extends State<SelectMassPage> {
+  double mass = 100.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: ListView(
+          children: [
+            Text("Select mass:"),
+            Container(
+              child: TextFormField(
+                initialValue: mass.toString(),
+                onFieldSubmitted: (value) {
+                  setState(() {
+                    mass = double.parse(value);
+                  });
+                },
+              ),
+            ),
+            TextButton(
+                onPressed: () {
+                  widget.meal.addIngredient(widget.ingredient, mass);
+                  Navigator.pop(context);
+                },
+                child: Text("Confirm"))
+          ],
         ),
-        TextButton(
-            onPressed: () {
-              print("hello");
-            },
-            child: Text("Confirm"))
-      ],
-    ),
-  );
+      ),
+    );
+  }
 }

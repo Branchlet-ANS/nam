@@ -4,6 +4,7 @@ import 'data_enum.dart' as de;
 import 'ingredient.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'main.dart';
 import 'search.dart';
 import 'global.dart';
 
@@ -20,6 +21,7 @@ class Meal {
   }
 
   void addIngredient(Ingredient ingredient, double mass) {
+    ingredient.setMass(mass);
     ingredients.add(ingredient);
   }
 
@@ -69,42 +71,42 @@ class _MealWidgetState extends State<MealWidget> {
       color: Colors.white,
       child: Padding(
         padding: EdgeInsets.all(16),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                widget.meal.toString(),
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-              Container(
-                  width: 350,
-                  height: 350,
-                  child: RadarChart.light(ticks: <int>[
-                    0,
-                    25,
-                    50,
-                    75,
-                    100
-                  ], features: <String>[
-                    "Jern",
-                    "Vit A",
-                    "Vit D",
-                  ], data: [
-                    mealValues
-                  ], reverseAxis: false, useSides: true)),
-              IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    showSearch(
-                            context: context,
-                            delegate: Search(Global.getData()))
-                        .then((ingredient) => setState(() {
-                              if (ingredient != null) {
-                                widget.meal.addIngredient(ingredient, 100);
-                              }
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+            Widget>[
+          Text(
+            widget.meal.toString(),
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+          Container(
+              width: 350,
+              height: 350,
+              child: RadarChart.light(ticks: <int>[
+                0,
+                25,
+                50,
+                75,
+                100
+              ], features: <String>[
+                "Jern",
+                "Vit A",
+                "Vit D",
+              ], data: [
+                mealValues
+              ], reverseAxis: false, useSides: true)),
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: Search(Global.getData()))
+                    .then((ingredient) => setState(() {
+                          if (ingredient != null) {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) {
+                              return SelectMassPage(widget.meal, ingredient);
                             }));
-                  })
-            ]),
+                          }
+                        }));
+              })
+        ]),
       ),
     );
   }
