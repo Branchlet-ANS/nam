@@ -32,7 +32,7 @@ class Global {
   }
 
   static void setNavIndex(int navIndex) {
-    _navIndex = _navIndex;
+    _navIndex = navIndex;
   }
 
   static int getNavIndex() {
