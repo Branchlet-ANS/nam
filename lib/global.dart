@@ -5,6 +5,7 @@ class Global {
   static Data _data;
   static Recommended _recommended;
   static User _user;
+  static int _navIndex = 0;
 
   static Data getData() {
     return _data;
@@ -28,5 +29,13 @@ class Global {
 
   static void setUser(User user) {
     _user = user;
+  }
+
+  static void setNavIndex(int navIndex) {
+    _navIndex = _navIndex;
+  }
+
+  static int getNavIndex() {
+    return _navIndex;
   }
 }

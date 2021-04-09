@@ -43,7 +43,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   List<Meal> meals = [new Meal()];
-  int _navIndex = 0;
 
   void _newMeal() {
     setState(() {
@@ -59,10 +58,10 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: <Widget>[_mealsBody(meals), _userBody()][_navIndex],
+      body: <Widget>[_mealsBody(meals), _userBody()][Global.getNavIndex()],
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _navIndex,
-          onTap: (value) => setState(() => _navIndex = value),
+          currentIndex: Global.getNavIndex(),
+          onTap: (value) => setState(() => Global.setNavIndex(value)),
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User')
@@ -134,4 +133,23 @@ Widget _userBody() {
                   ))
             ],
           )));
+}
+
+Widget _selectMassBody() {
+  double mass = 0;
+  return Center(
+    child: ListView(
+      children: [
+        Text("Select mass:"),
+        TextField(
+          onSubmitted: (value) => mass = value as double,
+        ),
+        TextButton(
+            onPressed: () {
+              print("hello");
+            },
+            child: Text("Confirm"))
+      ],
+    ),
+  );
 }

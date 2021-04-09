@@ -92,20 +92,6 @@ class _MealWidgetState extends State<MealWidget> {
                   ], data: [
                     mealValues
                   ], reverseAxis: false, useSides: true)),
-
-              /*nutrient(de.Column.VitaminA, de.Row18.VitaminA),
-              SizedBox(
-                height: 10,
-              ),
-              nutrient(de.Column.Iron, de.Row18.Iron),
-              SizedBox(
-                height: 10,
-              ),
-              nutrient(de.Column.Calcium, de.Row18.Calcium),
-              SizedBox(
-                height: 10,
-              ),
-              nutrient(de.Column.Potassium, de.Row18.Potassium),*/
               IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
