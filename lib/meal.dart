@@ -113,10 +113,16 @@ class _SelectMassPageState extends State<SelectMassPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+        body: Center(
+      child: Container(
+        width: 300,
+        height: 300,
         child: ListView(
           children: [
             Text("Select mass:"),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               child: TextFormField(
                 initialValue: mass.toString(),
@@ -127,6 +133,9 @@ class _SelectMassPageState extends State<SelectMassPage> {
                 },
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
             TextButton(
                 onPressed: () {
                   widget.meal.addIngredient(widget.ingredient, mass);
@@ -136,6 +145,6 @@ class _SelectMassPageState extends State<SelectMassPage> {
           ],
         ),
       ),
-    );
+    ));
   }
 }
