@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:nam/data.dart';
 import 'data_enum.dart' as de;
