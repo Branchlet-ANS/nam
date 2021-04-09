@@ -1,11 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:nam/ingredient.dart';
+import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'data.dart';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'global.dart';
 import 'meal.dart';
 import 'user.dart';
+import 'data_enum.dart' as de;
 
 Future<String> loadAsset(String path) async {
   return await rootBundle.loadString(path);
@@ -78,6 +82,10 @@ class _MainPageState extends State<MainPage> {
 
 Widget _mealsBody(meals) {
   return Center(
+      child: GestureDetector(
+    onTap: () {
+      //add code to change window
+    },
     child: ListView.builder(
       itemCount: meals.length,
       itemBuilder: (BuildContext context, int index) {
@@ -86,7 +94,7 @@ Widget _mealsBody(meals) {
         );
       },
     ),
-  );
+  ));
 }
 
 Widget _userBody() {
@@ -177,4 +185,42 @@ class _SelectMassPageState extends State<SelectMassPage> {
       ),
     );
   }
+}
+
+Widget _mealBody(Meal meal) {
+  List<int> mealValues = <int>[
+    getNutrientPercentage(meal, de.Column.Iron, de.Row18.Iron),
+    getNutrientPercentage(meal, de.Column.VitaminA, de.Row18.VitaminA),
+    getNutrientPercentage(meal, de.Column.VitaminD, de.Row18.VitaminD)
+  ];
+  return Center(
+      child: Column(children: [
+    SizedBox(height: 100),
+    Text("Meal"),
+    Container(
+        width: 350,
+        height: 350,
+        child: RadarChart.light(ticks: <int>[
+          0,
+          25,
+          50,
+          75,
+          100
+        ], features: <String>[
+          "Jern",
+          "Vit A",
+          "Vit D",
+        ], data: [
+          mealValues
+        ], reverseAxis: false, useSides: true))
+  ]));
+}
+
+int getNutrientPercentage(meal, de.Column col, de.Row18 row) {
+  return min(
+      100,
+      (100 *
+              meal.getNutrientValue(col) /
+              Recommended.getValue(row, de.Column18.AR_M))
+          .round());
 }
