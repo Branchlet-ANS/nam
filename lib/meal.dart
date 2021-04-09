@@ -2,11 +2,12 @@ import 'dart:html';
 
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:nam/data.dart';
-
 import 'data_enum.dart' as de;
 import 'ingredient.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'search.dart';
+import 'global.dart';
 
 class Meal {
   List<Ingredient> ingredients = [];
@@ -92,7 +93,7 @@ class _MealWidgetState extends State<MealWidget> {
                     "Vit D",
                   ], data: [
                     mealValues
-                  ], reverseAxis: false, useSides: true))
+                  ], reverseAxis: false, useSides: true)),
 
               /*nutrient(de.Column.VitaminA, de.Row18.VitaminA),
               SizedBox(
@@ -107,6 +108,18 @@ class _MealWidgetState extends State<MealWidget> {
                 height: 10,
               ),
               nutrient(de.Column.Potassium, de.Row18.Potassium),*/
+              IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    showSearch(
+                            context: context,
+                            delegate: Search(Global.getData()))
+                        .then((ingredient) => setState(() {
+                              if (ingredient != null) {
+                                widget.meal.addIngredient(ingredient, 100);
+                              }
+                            }));
+                  })
             ]),
       ),
     );
