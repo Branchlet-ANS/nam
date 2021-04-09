@@ -28,21 +28,22 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MealsPage(title: 'Nam'),
+      home: MainPage(title: 'Nam'),
     );
   }
 }
 
-class MealsPage extends StatefulWidget {
-  MealsPage({Key key, this.title}) : super(key: key);
+class MainPage extends StatefulWidget {
+  MainPage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
-  _MealsPageState createState() => _MealsPageState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _MealsPageState extends State<MealsPage> {
+class _MainPageState extends State<MainPage> {
   List<Meal> meals = [new Meal()];
+  int _navIndex = 0;
 
   void _newMeal() {
     setState(() {
@@ -70,29 +71,34 @@ class _MealsPageState extends State<MealsPage> {
               })
         ],
       ),
-      body: Center(
-        child: ListView.builder(
-          itemCount: meals.length,
-          itemBuilder: (BuildContext context, int index) {
-            return MealWidget(
-              meal: meals[index],
-            );
-          },
+      body: <Widget>[
+        Center(
+          child: ListView.builder(
+            itemCount: meals.length,
+            itemBuilder: (BuildContext context, int index) {
+              return MealWidget(
+                meal: meals[index],
+              );
+            },
+          ),
         ),
-      ),
-      bottomNavigationBar: myBottomNavigationBar(),
-      drawer: Drawer(),
+        Center(
+            child: Column(
+          children: [Text("User")],
+        ))
+      ][_navIndex],
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _navIndex,
+          onTap: (value) => setState(() => _navIndex = value),
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User')
+          ]),
+      //drawer: Drawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: _newMeal,
         child: Icon(Icons.add),
       ),
     );
   }
-}
-
-Widget myBottomNavigationBar() {
-  return BottomNavigationBar(items: const <BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-    BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings')
-  ]);
 }
