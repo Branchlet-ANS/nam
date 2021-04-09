@@ -1,7 +1,7 @@
 class User {
-  String _name;
-  bool _sex; // 0: Female, 1: Male
-  double _weight;
+  String _name = "";
+  bool _sex = false; // 0: Female, 1: Male
+  double _weight = 69;
 
   User();
 
