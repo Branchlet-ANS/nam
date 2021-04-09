@@ -8,7 +8,8 @@ class Data {
 
   Data(String dataString) {
     ingredients = [];
-    _data = CsvToListConverter().convert(dataString, fieldDelimiter: ';');
+    _data = CsvToListConverter()
+        .convert(dataString, fieldDelimiter: ';', eol: '\n');
     manageData(_data);
     for (List<dynamic> ingredientData in _data) {
       ingredients.add(new Ingredient(ingredientData));
@@ -76,7 +77,7 @@ class Recommended {
   static List<List<dynamic>> _data;
 
   Recommended(String data) {
-    _data = CsvToListConverter().convert(data, fieldDelimiter: ';');
+    _data = CsvToListConverter().convert(data, fieldDelimiter: ';', eol: '\n');
   }
 
   static dynamic getValue(de.Row18 row, de.Column18 col) {

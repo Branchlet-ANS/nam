@@ -1,8 +1,12 @@
+import 'dart:html';
+
+import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:nam/data.dart';
 
 import 'data_enum.dart' as de;
 import 'ingredient.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class Meal {
   List<Ingredient> ingredients = [];
@@ -56,8 +60,14 @@ class MealWidget extends StatefulWidget {
 class _MealWidgetState extends State<MealWidget> {
   @override
   Widget build(BuildContext context) {
+    List<int> mealValues = <int>[
+      getNutrientPercentage(de.Column.Iron, de.Row18.Iron),
+      getNutrientPercentage(de.Column.VitaminA, de.Row18.VitaminA),
+      getNutrientPercentage(de.Column.VitaminD, de.Row18.VitaminD)
+    ];
+
     return Card(
-      color: Colors.blue,
+      color: Colors.white,
       child: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -67,30 +77,24 @@ class _MealWidgetState extends State<MealWidget> {
                 widget.meal.toString(),
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Protein: ' +
-                    widget.meal.getNutrientValue(de.Column.Protein).toString(),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Carbs: ' +
-                    widget.meal
-                        .getNutrientValue(de.Column.Carbohydrate)
-                        .toString(),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text('Mass: ' + widget.meal.getMass().toString()),
-              SizedBox(
-                height: 10,
-              ),
-              nutrient(de.Column.VitaminA, de.Row18.VitaminA),
+              Container(
+                  width: 350,
+                  height: 350,
+                  child: RadarChart.light(ticks: <int>[
+                    0,
+                    25,
+                    50,
+                    75,
+                    100
+                  ], features: <String>[
+                    "Jern",
+                    "Vit A",
+                    "Vit D",
+                  ], data: [
+                    mealValues
+                  ], reverseAxis: false, useSides: true))
+
+              /*nutrient(de.Column.VitaminA, de.Row18.VitaminA),
               SizedBox(
                 height: 10,
               ),
@@ -102,10 +106,19 @@ class _MealWidgetState extends State<MealWidget> {
               SizedBox(
                 height: 10,
               ),
-              nutrient(de.Column.Potassium, de.Row18.Potassium),
+              nutrient(de.Column.Potassium, de.Row18.Potassium),*/
             ]),
       ),
     );
+  }
+
+  int getNutrientPercentage(de.Column col, de.Row18 row) {
+    return min(
+        100,
+        (100 *
+                widget.meal.getNutrientValue(col) /
+                Recommended.getValue(row, de.Column18.AR_M))
+            .round());
   }
 
   Widget nutrient(de.Column col, de.Row18 row) {
