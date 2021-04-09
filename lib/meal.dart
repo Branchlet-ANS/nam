@@ -59,12 +59,6 @@ class MealWidget extends StatefulWidget {
 class _MealWidgetState extends State<MealWidget> {
   @override
   Widget build(BuildContext context) {
-    List<int> mealValues = <int>[
-      getNutrientPercentage(de.Column.Iron, de.Row18.Iron),
-      getNutrientPercentage(de.Column.VitaminA, de.Row18.VitaminA),
-      getNutrientPercentage(de.Column.VitaminD, de.Row18.VitaminD)
-    ];
-
     return Card(
       color: Colors.white,
       child: Padding(
@@ -105,15 +99,6 @@ class _MealWidgetState extends State<MealWidget> {
             ]),
       ),
     );
-  }
-
-  int getNutrientPercentage(de.Column col, de.Row18 row) {
-    return min(
-        100,
-        (100 *
-                widget.meal.getNutrientValue(col) /
-                Recommended.getValue(row, de.Column18.AR_M))
-            .round());
   }
 
   Widget nutrient(de.Column col, de.Row18 row) {

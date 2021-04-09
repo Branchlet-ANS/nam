@@ -2,6 +2,7 @@ class User {
   String _name = "";
   bool _sex = false; // 0: Female, 1: Male
   double _weight = 69;
+  double _kilocalories = 2000;
 
   User();
 
@@ -27,5 +28,13 @@ class User {
 
   void setWeight(double weight) {
     _weight = weight;
+  }
+
+  double getKilocalories() {
+    return _weight;
+  }
+
+  void setKilocalories(double kilocalories) {
+    _kilocalories = kilocalories;
   }
 }
