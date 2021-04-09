@@ -144,49 +144,6 @@ Widget _userBody() {
           )));
 }
 
-class SelectMassPage extends StatefulWidget {
-  final Meal meal;
-  final Ingredient ingredient;
-
-  SelectMassPage(this.meal, this.ingredient);
-
-  @override
-  State<StatefulWidget> createState() => _SelectMassPageState();
-}
-
-class _SelectMassPageState extends State<SelectMassPage> {
-  double mass = 100.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ListView(
-          children: [
-            Text("Select mass:"),
-            Container(
-              child: TextFormField(
-                initialValue: mass.toString(),
-                onFieldSubmitted: (value) {
-                  setState(() {
-                    mass = double.parse(value);
-                  });
-                },
-              ),
-            ),
-            TextButton(
-                onPressed: () {
-                  widget.meal.addIngredient(widget.ingredient, mass);
-                  Navigator.pop(context);
-                },
-                child: Text("Confirm"))
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 Widget _mealBody(Meal meal) {
   List<int> mealValues = <int>[
     getNutrientPercentage(meal, de.Column.Iron, de.Row18.Iron),
