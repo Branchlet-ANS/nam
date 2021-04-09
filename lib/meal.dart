@@ -1,8 +1,9 @@
 import 'package:nam/data.dart';
-
 import 'data_enum.dart' as de;
 import 'ingredient.dart';
 import 'package:flutter/material.dart';
+import 'search.dart';
+import 'global.dart';
 
 class Meal {
   List<Ingredient> ingredients = [];
@@ -60,50 +61,57 @@ class _MealWidgetState extends State<MealWidget> {
       color: Colors.blue,
       child: Padding(
         padding: EdgeInsets.all(16),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                widget.meal.toString(),
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Protein: ' +
-                    widget.meal.getNutrientValue(de.Column.Protein).toString(),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Carbs: ' +
-                    widget.meal
-                        .getNutrientValue(de.Column.Carbohydrate)
-                        .toString(),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text('Mass: ' + widget.meal.getMass().toString()),
-              SizedBox(
-                height: 10,
-              ),
-              nutrient(de.Column.VitaminA, de.Row18.VitaminA),
-              SizedBox(
-                height: 10,
-              ),
-              nutrient(de.Column.Iron, de.Row18.Iron),
-              SizedBox(
-                height: 10,
-              ),
-              nutrient(de.Column.Calcium, de.Row18.Calcium),
-              SizedBox(
-                height: 10,
-              ),
-              nutrient(de.Column.Potassium, de.Row18.Potassium),
-            ]),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+            Widget>[
+          Text(
+            widget.meal.toString(),
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Protein: ' +
+                widget.meal.getNutrientValue(de.Column.Protein).toString(),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Carbs: ' +
+                widget.meal.getNutrientValue(de.Column.Carbohydrate).toString(),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text('Mass: ' + widget.meal.getMass().toString()),
+          SizedBox(
+            height: 10,
+          ),
+          nutrient(de.Column.VitaminA, de.Row18.VitaminA),
+          SizedBox(
+            height: 10,
+          ),
+          nutrient(de.Column.Iron, de.Row18.Iron),
+          SizedBox(
+            height: 10,
+          ),
+          nutrient(de.Column.Calcium, de.Row18.Calcium),
+          SizedBox(
+            height: 10,
+          ),
+          nutrient(de.Column.Potassium, de.Row18.Potassium),
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: Search(Global.getData()))
+                    .then((ingredient) => setState(() {
+                          if (ingredient != null) {
+                            widget.meal.addIngredient(ingredient, 100);
+                          }
+                        }));
+              })
+        ]),
       ),
     );
   }

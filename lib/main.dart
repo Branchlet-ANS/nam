@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'data.dart';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
+import 'global.dart';
 import 'meal.dart';
-import 'search.dart';
-
-Data data;
-Recommended recommended;
 
 Future<String> loadAsset(String path) async {
   return await rootBundle.loadString(path);
@@ -15,9 +12,9 @@ Future<String> loadAsset(String path) async {
 void main() async {
   runApp(MyApp());
   String dataPath = 'assets/res/matvaretabellen.csv';
-  data = new Data(await loadAsset(dataPath));
+  Global.setData(new Data(await loadAsset(dataPath)));
   String recommendedPath = 'assets/res/table_1_8.csv';
-  recommended = new Recommended(await loadAsset(recommendedPath));
+  Global.setRecommended(new Recommended(await loadAsset(recommendedPath)));
 }
 
 class MyApp extends StatelessWidget {
@@ -58,18 +55,6 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: Search(data))
-                    .then((ingredient) => setState(() {
-                          if (ingredient != null) {
-                            meals.last.addIngredient(ingredient, 100);
-                          }
-                        }));
-              })
-        ],
       ),
       body: <Widget>[
         Center(
