@@ -7,6 +7,7 @@ import 'global.dart';
 
 class Meal {
   List<Ingredient> ingredients = [];
+  List<MealList> listeners = [];
   Meal();
 
   Meal.from(Meal a, Meal b) {
@@ -20,6 +21,7 @@ class Meal {
   void addIngredient(Ingredient ingredient, double mass) {
     ingredient.setMass(mass);
     ingredients.add(ingredient);
+    notifyListeners();
   }
 
   double getMass() {
@@ -28,6 +30,20 @@ class Meal {
       mass += i.getMass();
     }
     return mass;
+  }
+
+  void addListener(MealList listener) {
+    listeners.add(listener);
+  }
+
+  void removeListener(MealList listener) {
+    listeners.remove(listener);
+  }
+
+  void notifyListeners() {
+    for (MealList listener in listeners) {
+      listener.update();
+    }
   }
 
   double getNutrientValue(de.Column number) {
@@ -146,5 +162,35 @@ class _SelectMassPageState extends State<SelectMassPage> {
         ),
       ),
     ));
+  }
+}
+
+class MealList extends ChangeNotifier {
+  List<Meal> _meals = [];
+
+  void addMeal(Meal meal) {
+    _meals.add(meal);
+    meal.addListener(this);
+    notifyListeners();
+  }
+
+  void removeMeal(Meal meal) {
+    if (_meals.contains(meal)) {
+      _meals.remove(meal);
+      meal.removeListener(this);
+      notifyListeners();
+    }
+  }
+
+  Meal getMeal(int index) {
+    return _meals[index];
+  }
+
+  int length() {
+    return _meals.length;
+  }
+
+  void update() {
+    notifyListeners();
   }
 }

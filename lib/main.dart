@@ -1,7 +1,6 @@
 import 'dart:math';
-
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:nam/ingredient.dart';
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'data.dart';
 import 'dart:async' show Future;
@@ -47,54 +46,53 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<Meal> meals = [new Meal()];
-
-  void _newMeal() {
-    setState(() {
-      meals.add(
-        new Meal(),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: <Widget>[_mealsBody(meals), _userBody()][Global.getNavIndex()],
+      body: <Widget>[_mealsBody(), _userBody()][Global.getNavIndex()],
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: Global.getNavIndex(),
           onTap: (value) => setState(() => Global.setNavIndex(value)),
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User')
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
           ]),
-      //drawer: Drawer(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _newMeal,
-        child: Icon(Icons.add),
-      ),
     );
   }
 }
 
-Widget _mealsBody(meals) {
-  return Center(
+Widget _mealsBody() {
+  return ChangeNotifierProvider(
+    create: (context) => MealList(),
+    child: Center(
       child: GestureDetector(
-    onTap: () {
-      //add code to change window
-    },
-    child: ListView.builder(
-      itemCount: meals.length,
-      itemBuilder: (BuildContext context, int index) {
-        return MealWidget(
-          meal: meals[index],
-        );
-      },
+        onTap: () {
+          //add code to change window
+        },
+        child: Consumer<MealList>(
+          builder: (context, mealList, child) {
+            return Column(children: [
+              Expanded(
+                child: ListView.builder(
+                    itemCount: mealList.length(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return MealWidget(
+                        meal: mealList.getMeal(index),
+                      );
+                    }),
+              ),
+              TextButton(
+                  onPressed: () => mealList.addMeal(new Meal()),
+                  child: Text("New meal"))
+            ]);
+          },
+        ),
+      ),
     ),
-  ));
+  );
 }
 
 Widget _userBody() {
