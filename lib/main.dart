@@ -69,9 +69,6 @@ Widget _mealsBody() {
     create: (context) => MealList(),
     child: Center(
       child: GestureDetector(
-        onTap: () {
-          //add code to change window
-        },
         child: Consumer<MealList>(
           builder: (context, mealList, child) {
             return Column(children: [
@@ -140,35 +137,6 @@ Widget _userBody() {
                   ))
             ],
           )));
-}
-
-Widget _mealBody(Meal meal) {
-  List<int> mealValues = <int>[
-    getNutrientPercentage(meal, de.Column.Iron, de.Row18.Iron),
-    getNutrientPercentage(meal, de.Column.VitaminA, de.Row18.VitaminA),
-    getNutrientPercentage(meal, de.Column.VitaminD, de.Row18.VitaminD)
-  ];
-  return Center(
-      child: Column(children: [
-    SizedBox(height: 100),
-    Text("Meal"),
-    Container(
-        width: 350,
-        height: 350,
-        child: RadarChart.light(ticks: <int>[
-          0,
-          25,
-          50,
-          75,
-          100
-        ], features: <String>[
-          "Jern",
-          "Vit A",
-          "Vit D",
-        ], data: [
-          mealValues
-        ], reverseAxis: false, useSides: true))
-  ]));
 }
 
 int getNutrientPercentage(meal, de.Column col, de.Row18 row) {

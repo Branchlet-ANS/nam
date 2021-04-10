@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:nam/data.dart';
 import 'data_enum.dart' as de;
 import 'ingredient.dart';
@@ -74,30 +77,41 @@ class MealWidget extends StatefulWidget {
 class _MealWidgetState extends State<MealWidget> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-            Widget>[
-          Text(
-            widget.meal.toString(),
-            style: TextStyle(fontStyle: FontStyle.italic),
-          ),
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: Search(Global.getData()))
-                    .then((ingredient) => setState(() {
-                          if (ingredient != null) {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) {
-                              return SelectMassPage(widget.meal, ingredient);
-                            }));
-                          }
-                        }));
-              })
-        ]),
+    return GestureDetector(
+      onTap: () => {
+        Navigator.push(context, MaterialPageRoute(builder: (_) {
+          return MealPage(widget.meal);
+        }))
+      },
+      child: Card(
+        color: Colors.white,
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  widget.meal.toString(),
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+                IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      showSearch(
+                              context: context,
+                              delegate: Search(Global.getData()))
+                          .then((ingredient) => setState(() {
+                                if (ingredient != null) {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (_) {
+                                    return SelectMassPage(
+                                        widget.meal, ingredient);
+                                  }));
+                                }
+                              }));
+                    })
+              ]),
+        ),
       ),
     );
   }
@@ -193,4 +207,56 @@ class MealList extends ChangeNotifier {
   void update() {
     notifyListeners();
   }
+}
+
+class MealPage extends StatefulWidget {
+  final Meal meal;
+
+  MealPage(this.meal);
+
+  @override
+  State<StatefulWidget> createState() => _MealPageState();
+}
+
+class _MealPageState extends State<MealPage> {
+  @override
+  Widget build(BuildContext context) {
+    List<int> mealValues = <int>[
+      getNutrientPercentage(widget.meal, de.Column.Iron, de.Row18.Iron),
+      getNutrientPercentage(widget.meal, de.Column.VitaminA, de.Row18.VitaminA),
+      getNutrientPercentage(widget.meal, de.Column.VitaminD, de.Row18.VitaminD)
+    ];
+    return Center(
+        child: Column(children: [
+      SizedBox(height: 100),
+      Text("Meal"),
+      Container(
+          width: 350,
+          height: 350,
+          child: RadarChart.light(ticks: <int>[
+            0,
+            25,
+            50,
+            75,
+            100
+          ], features: <String>[
+            "Jern",
+            "Vit A",
+            "Vit D",
+          ], data: [
+            mealValues
+          ], reverseAxis: false, useSides: true)),
+      TextButton(
+          onPressed: () => Navigator.pop(context), child: Text("Fuck this"))
+    ]));
+  }
+}
+
+int getNutrientPercentage(meal, de.Column col, de.Row18 row) {
+  return min(
+      100,
+      (100 *
+              meal.getNutrientValue(col) /
+              Recommended.getValue(row, de.Column18.AR_M))
+          .round());
 }
