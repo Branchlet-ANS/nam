@@ -27,13 +27,15 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Nam',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MainPage(title: 'Nam'),
-    );
+    return ChangeNotifierProvider(
+        create: (context) => MealList(),
+        child: MaterialApp(
+          title: 'Nam',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: MainPage(title: 'Nam'),
+        ));
   }
 }
 
@@ -65,31 +67,25 @@ class _MainPageState extends State<MainPage> {
 }
 
 Widget _mealsBody() {
-  return ChangeNotifierProvider(
-    create: (context) => MealList(),
-    child: Center(
-      child: GestureDetector(
-        child: Consumer<MealList>(
-          builder: (context, mealList, child) {
-            return Column(children: [
-              Expanded(
-                child: ListView.builder(
-                    itemCount: mealList.length(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return MealWidget(
-                        meal: mealList.getMeal(index),
-                      );
-                    }),
-              ),
-              TextButton(
-                  onPressed: () => mealList.addMeal(new Meal()),
-                  child: Text("New meal"))
-            ]);
-          },
-        ),
-      ),
+  return Center(child: GestureDetector(
+    child: Consumer<MealList>(
+      builder: (context, mealList, child) {
+        return Column(children: [
+          Expanded(
+            child: ListView.builder(
+                itemCount: mealList.length(),
+                itemBuilder: (BuildContext context, int index) {
+                  return MealWidget(
+                      meal: mealList.getMeal(index), mealList: mealList);
+                }),
+          ),
+          TextButton(
+              onPressed: () => mealList.addMeal(new Meal()),
+              child: Text("New meal"))
+        ]);
+      },
     ),
-  );
+  ));
 }
 
 Widget _userBody() {

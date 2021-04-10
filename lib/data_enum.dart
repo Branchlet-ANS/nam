@@ -140,6 +140,7 @@ enum Row18 {
   Copper,
   Iodine,
   Selenium,
+  Kilocalories
 }
 
 enum Column18 {
