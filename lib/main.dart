@@ -101,7 +101,7 @@ Widget _userBody() {
                   height: 100,
                   child: TextFormField(
                       initialValue: Global.getUser().getName(),
-                      onFieldSubmitted: (value) {
+                      onChanged: (value) {
                         Global.getUser().setName(value);
                       })),
               Text("Sex"),
@@ -110,7 +110,8 @@ Widget _userBody() {
                   height: 100,
                   child: TextFormField(
                     initialValue: Global.getUser().getSex() ? "Male" : "Female",
-                    onFieldSubmitted: (value) => Global.getUser().setSex(false),
+                    onChanged: (value) =>
+                        Global.getUser().setSex(value == 'Male'),
                   )),
               Text("Weight"),
               Container(
@@ -118,7 +119,7 @@ Widget _userBody() {
                   height: 100,
                   child: TextFormField(
                     initialValue: Global.getUser().getWeight().toString(),
-                    onFieldSubmitted: (value) =>
+                    onChanged: (value) =>
                         Global.getUser().setWeight(double.parse(value)),
                   )),
               Text("Daily Kilocalories"),
@@ -127,7 +128,7 @@ Widget _userBody() {
                   height: 100,
                   child: TextFormField(
                     initialValue: Global.getUser().getKilocalories().toString(),
-                    onFieldSubmitted: (value) {
+                    onChanged: (value) {
                       Global.getUser().setKilocalories(double.parse(value));
                     },
                   ))
