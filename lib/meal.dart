@@ -144,7 +144,10 @@ class _MealWidgetState extends State<MealWidget> {
                               }));
                             }
                           }));
-                })
+                }),
+            IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () => widget.mealList.removeMeal(widget.meal))
           ]),
         ),
       ),
@@ -257,18 +260,25 @@ class _MealPageState extends State<MealPage> {
         getNutrientPercentage(
             widget.meal, de.Column.VitaminA, de.Row18.VitaminA),
         getNutrientPercentage(
+            widget.meal, de.Column.VitaminB6, de.Row18.VitaminB6),
+        getNutrientPercentage(
+            widget.meal, de.Column.VitaminB12, de.Row18.VitaminB12),
+        getNutrientPercentage(
             widget.meal, de.Column.VitaminC, de.Row18.VitaminC),
         getNutrientPercentage(
             widget.meal, de.Column.VitaminD, de.Row18.VitaminD),
         getNutrientPercentage(
             widget.meal, de.Column.VitaminE, de.Row18.VitaminE),
         getNutrientPercentage(widget.meal, de.Column.Iron, de.Row18.Iron),
-        getNutrientPercentage(widget.meal, de.Column.Zink, de.Row18.Zinc),
+        getNutrientPercentage(widget.meal, de.Column.Zinc, de.Row18.Zinc),
         getNutrientPercentage(widget.meal, de.Column.Iodine, de.Row18.Iodine),
+        getNutrientPercentage(widget.meal, de.Column.Calcium, de.Row18.Calcium),
+        getNutrientPercentage(widget.meal, de.Column.Folate, de.Row18.Folate),
         getNutrientPercentage(
-            widget.meal, de.Column.Kilocalories, de.Row18.Kilocalories),
+            widget.meal, de.Column.Phosphorus, de.Row18.Phosphorus),
         getNutrientPercentage(
-            widget.meal, de.Column.VitaminB6, de.Row18.VitaminB6)
+            widget.meal, de.Column.Potassium, de.Row18.Potassium),
+        getNutrientPercentage(widget.meal, de.Column.Copper, de.Row18.Copper)
       ];
     }
 
@@ -308,14 +318,19 @@ class _MealPageState extends State<MealPage> {
                         100
                       ], features: <String>[
                         'Vit A',
+                        'Vit B6',
+                        'Vit B12',
                         'Vit C',
                         'Vit D',
                         'Vit E',
                         'Jern',
                         'Zink',
                         'Jod',
-                        'Kcal',
-                        'Vit B6'
+                        'Kalsium',
+                        'Folat',
+                        'Fosfor',
+                        'Kalium',
+                        'Kobber'
                       ], data: [
                         getMealValues()
                       ], reverseAxis: false, useSides: true)),
