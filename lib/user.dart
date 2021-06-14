@@ -1,4 +1,6 @@
-class User {
+import 'package:flutter/cupertino.dart';
+
+class User extends ChangeNotifier {
   String _name = "";
   bool _sex = false; // 0: Female, 1: Male
   double _weight = 69;
@@ -12,6 +14,7 @@ class User {
 
   void setSex(bool sex) {
     _sex = sex;
+    notifyListeners();
   }
 
   String getName() {
@@ -20,6 +23,7 @@ class User {
 
   void setName(String name) {
     _name = name;
+    notifyListeners();
   }
 
   double getWeight() {
@@ -28,6 +32,7 @@ class User {
 
   void setWeight(double weight) {
     _weight = weight;
+    notifyListeners();
   }
 
   double getKilocalories() {
@@ -36,5 +41,6 @@ class User {
 
   void setKilocalories(double kilocalories) {
     _kilocalories = kilocalories;
+    notifyListeners();
   }
 }

@@ -26,8 +26,11 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => MealList(),
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => MealList()),
+          ChangeNotifierProvider(create: (context) => Global.getUser())
+        ],
         child: MaterialApp(
           title: 'Nam',
           theme: ThemeData(
@@ -88,51 +91,62 @@ Widget _mealsBody() {
 }
 
 Widget _userBody() {
-  return Center(
-      child: Padding(
-          padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
-          child: ListView(
-            children: [
-              SizedBox(height: 100),
-              Text("Name"),
-              Container(
-                  width: 100,
-                  height: 100,
-                  child: TextFormField(
-                      initialValue: Global.getUser().getName(),
-                      onChanged: (value) {
-                        Global.getUser().setName(value);
-                      })),
-              Text("Sex"),
-              Container(
-                  width: 100,
-                  height: 100,
-                  child: TextFormField(
-                    initialValue: Global.getUser().getSex() ? "Male" : "Female",
-                    onChanged: (value) =>
-                        Global.getUser().setSex(value == 'Male'),
-                  )),
-              Text("Weight"),
-              Container(
-                  width: 100,
-                  height: 100,
-                  child: TextFormField(
-                    initialValue: Global.getUser().getWeight().toString(),
-                    onChanged: (value) =>
-                        Global.getUser().setWeight(double.parse(value)),
-                  )),
-              Text("Daily Kilocalories"),
-              Container(
-                  width: 100,
-                  height: 100,
-                  child: TextFormField(
-                    initialValue: Global.getUser().getKilocalories().toString(),
+  return Center(child: Consumer<User>(builder: (context, user, child) {
+    return Padding(
+        padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
+        child: ListView(
+          children: [
+            SizedBox(height: 100),
+            Text("Name"),
+            Container(
+                width: 100,
+                height: 100,
+                child: TextFormField(
+                    initialValue: Global.getUser().getName(),
                     onChanged: (value) {
-                      Global.getUser().setKilocalories(double.parse(value));
-                    },
-                  ))
-            ],
-          )));
+                      Global.getUser().setName(value);
+                    })),
+            Text("Sex"),
+            Container(
+                width: 100,
+                height: 100,
+                child: DropdownButton<bool>(
+                  value: Global.getUser().getSex(),
+                  onChanged: (bool newValue) {
+                    Global.getUser().setSex(newValue);
+                  },
+                  items: <bool>[false, true]
+                      .map<DropdownMenuItem<bool>>((bool value) {
+                    return DropdownMenuItem<bool>(
+                      value: value,
+                      child: Text(value ? 'Male' : 'Female'),
+                    );
+                  }).toList(),
+                )),
+            Text("Weight"),
+            Container(
+                width: 100,
+                height: 100,
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  initialValue: Global.getUser().getWeight().toString(),
+                  onChanged: (value) =>
+                      Global.getUser().setWeight(double.parse(value)),
+                )),
+            Text("Daily Kilocalories"),
+            Container(
+                width: 100,
+                height: 100,
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  initialValue: Global.getUser().getKilocalories().toString(),
+                  onChanged: (value) {
+                    Global.getUser().setKilocalories(double.parse(value));
+                  },
+                ))
+          ],
+        ));
+  }));
 }
 
 int getNutrientPercentage(meal, de.Column col, de.Row18 row) {

@@ -61,7 +61,7 @@ class Meal extends ChangeNotifier {
   @override
   void notifyListeners() {
     for (MealList listener in mealListListeners) {
-      listener.update();
+      listener.notifyListeners();
     }
     super.notifyListeners();
   }
@@ -236,10 +236,6 @@ class MealList extends ChangeNotifier {
 
   int length() {
     return _meals.length;
-  }
-
-  void update() {
-    notifyListeners();
   }
 }
 
