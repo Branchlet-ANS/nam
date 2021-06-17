@@ -1,12 +1,13 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'data/data.dart';
 import 'data/user.dart';
 
 class Global {
-  static Data _data;
-  static Recommended _recommended;
-  static User _user;
+  static Data? _data;
+  static Recommended? _recommended;
+  static NamUser? _user;
 
-  static Data getData() {
+  static Data? getData() {
     return _data;
   }
 
@@ -14,7 +15,7 @@ class Global {
     _data = data;
   }
 
-  static Recommended getRecommended() {
+  static Recommended? getRecommended() {
     return _recommended;
   }
 
@@ -22,11 +23,11 @@ class Global {
     _recommended = recommended;
   }
 
-  static User getUser() {
+  static NamUser? getUser() {
     return _user;
   }
 
-  static void setUser(User user) {
+  static void setUser(NamUser user) {
     _user = user;
   }
 }

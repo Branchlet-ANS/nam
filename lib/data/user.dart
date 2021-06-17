@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 
-class User extends ChangeNotifier {
+class NamUser extends ChangeNotifier {
   String _name = "";
-  bool _sex = false; // 0: Female, 1: Male
+  bool? _sex = false; // 0: Female, 1: Male
   double _weight = 69;
   double _kilocalories = 2000;
 
-  User();
+  NamUser();
 
-  bool getSex() {
+  bool? getSex() {
     return _sex;
   }
 
-  void setSex(bool sex) {
+  void setSex(bool? sex) {
     _sex = sex;
     notifyListeners();
   }

@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:csv/csv.dart';
 import 'ingredient.dart';
 import 'data_enum.dart' as de;

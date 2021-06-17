@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'dart:math';
 
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';

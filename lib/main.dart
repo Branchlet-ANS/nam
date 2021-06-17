@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'data/data.dart';
@@ -15,7 +16,7 @@ Future<String> loadAsset(String path) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Global.setUser(new User());
+  Global.setUser(new NamUser());
   String dataPath = 'assets/res/matvaretabellen.csv';
   Global.setData(new Data(await loadAsset(dataPath)));
   String recommendedPath = 'assets/res/table_1_8.csv';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
 
 class MainPage extends StatefulWidget {
   final String title;
-  MainPage({Key key, this.title}) : super(key: key);
+  MainPage({Key key, this.title = ""}) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
