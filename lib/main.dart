@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'data.dart';
@@ -6,8 +5,9 @@ import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'global.dart';
 import 'meal.dart';
+import 'meals_page.dart';
 import 'user.dart';
-import 'data_enum.dart' as de;
+import 'user_page.dart';
 
 Future<String> loadAsset(String path) async {
   return await rootBundle.loadString(path);
@@ -42,118 +42,44 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
-  MainPage({Key key, this.title}) : super(key: key);
   final String title;
+  MainPage({Key key, this.title}) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
+  PageController _pageController = PageController();
+  List<Widget> _pages = [MealsPage(), UserPage()];
+  int _pageIndex = 0;
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _pageIndex = index;
+    });
+  }
+
+  void _onTap(int index) {
+    _pageController.jumpToPage(index);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+      body: PageView(
+        controller: _pageController,
+        children: _pages,
+        onPageChanged: _onPageChanged,
+        physics: NeverScrollableScrollPhysics(),
       ),
-      body: <Widget>[_mealsBody(), _userBody()][Global.getNavIndex()],
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: Global.getNavIndex(),
-          onTap: (value) => setState(() => Global.setNavIndex(value)),
+          currentIndex: _pageIndex,
+          onTap: _onTap,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
           ]),
     );
   }
-}
-
-Widget _mealsBody() {
-  return Center(child: GestureDetector(
-    child: Consumer<MealList>(
-      builder: (context, mealList, child) {
-        return Column(children: [
-          Expanded(
-            child: ListView.builder(
-                itemCount: mealList.length(),
-                itemBuilder: (BuildContext context, int index) {
-                  return MealWidget(
-                      meal: mealList.getMeal(index), mealList: mealList);
-                }),
-          ),
-          TextButton(
-              onPressed: () => mealList.addMeal(new Meal()),
-              child: Text("New meal"))
-        ]);
-      },
-    ),
-  ));
-}
-
-Widget _userBody() {
-  return Center(child: Consumer<User>(builder: (context, user, child) {
-    return Padding(
-        padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
-        child: ListView(
-          children: [
-            SizedBox(height: 100),
-            Text("Name"),
-            Container(
-                width: 100,
-                height: 100,
-                child: TextFormField(
-                    initialValue: Global.getUser().getName(),
-                    onChanged: (value) {
-                      Global.getUser().setName(value);
-                    })),
-            Text("Sex"),
-            Container(
-                width: 100,
-                height: 100,
-                child: DropdownButton<bool>(
-                  value: Global.getUser().getSex(),
-                  onChanged: (bool newValue) {
-                    Global.getUser().setSex(newValue);
-                  },
-                  items: <bool>[false, true]
-                      .map<DropdownMenuItem<bool>>((bool value) {
-                    return DropdownMenuItem<bool>(
-                      value: value,
-                      child: Text(value ? 'Male' : 'Female'),
-                    );
-                  }).toList(),
-                )),
-            Text("Weight"),
-            Container(
-                width: 100,
-                height: 100,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  initialValue: Global.getUser().getWeight().toString(),
-                  onChanged: (value) =>
-                      Global.getUser().setWeight(double.parse(value)),
-                )),
-            Text("Daily Kilocalories"),
-            Container(
-                width: 100,
-                height: 100,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  initialValue: Global.getUser().getKilocalories().toString(),
-                  onChanged: (value) {
-                    Global.getUser().setKilocalories(double.parse(value));
-                  },
-                ))
-          ],
-        ));
-  }));
-}
-
-int getNutrientPercentage(meal, de.Column col, de.Row18 row) {
-  return min(
-      100,
-      (100 *
-              meal.getNutrientValue(col) /
-              Recommended.getValue(row, de.Column18.AR_M))
-          .round());
 }
