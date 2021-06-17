@@ -1,13 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
-import 'package:nam/data.dart';
+import 'data.dart';
 import 'package:provider/provider.dart';
 import 'data_enum.dart' as de;
 import 'ingredient.dart';
 import 'package:flutter/material.dart';
-import 'search.dart';
-import 'global.dart';
+import '../search.dart';
+import '../global.dart';
 
 class Meal extends ChangeNotifier {
   List<Ingredient> ingredients = [];

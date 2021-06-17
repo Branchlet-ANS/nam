@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'data.dart';
-import 'ingredient.dart';
+import 'data/data.dart';
+import 'data/ingredient.dart';
 
 class Search extends SearchDelegate<Ingredient> {
   Data data;

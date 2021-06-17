@@ -1,5 +1,5 @@
 import 'package:csv/csv.dart';
-import 'package:nam/ingredient.dart';
+import 'ingredient.dart';
 import 'data_enum.dart' as de;
 
 class Data {

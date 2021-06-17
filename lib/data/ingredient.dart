@@ -1,5 +1,5 @@
-import 'data_enum.dart' as de;
-import 'data.dart';
+import '../data/data_enum.dart' as de;
+import '../data/data.dart';
 
 class Ingredient {
   List<dynamic> _ingredient;

@@ -1,13 +1,13 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'data.dart';
+import 'data/data.dart';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'global.dart';
-import 'meal.dart';
-import 'meals_page.dart';
-import 'user.dart';
-import 'user_page.dart';
+import 'data/meal.dart';
+import 'pages/meals_page.dart';
+import 'data/user.dart';
+import 'pages/user_page.dart';
 
 Future<String> loadAsset(String path) async {
   return await rootBundle.loadString(path);
