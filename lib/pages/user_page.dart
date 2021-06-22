@@ -1,19 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:firebase_core/firebase_core.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../data/user.dart';
 
 class UserPage extends StatefulWidget {
-  UserPage({Key key}) : super(key: key);
+  UserPage({Key? key}) : super(key: key);
 
   @override
   _UserPageState createState() => _UserPageState();
 }
 
 class _UserPageState extends State<UserPage> {
+  // Set default `_initialized` and `_error` state to false
+  bool _initialized = false;
+  bool _error = false;
+
+  // Define an async function to initialize FlutterFire
+  void initializeFlutterFire() async {
+    try {
+      // Wait for Firebase to initialize and set `_initialized` state to true
+      await Firebase.initializeApp();
+      setState(() {
+        _initialized = true;
+      });
+    } catch (e) {
+      // Set `_error` state to true if Firebase initialization fails
+      setState(() {
+        _error = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    initializeFlutterFire();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(child: Consumer<User>(builder: (context, user, child) {
+    // Show error message if initialization failed
+    if (_error) {
+      return Center(child: Text("Error!"));
+    }
+
+    // Show a loader until FlutterFire is initialized
+    if (!_initialized) {
+      return Center(child: Text("Loading!"));
+    }
+
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        print('User is signed in!');
+      }
+    });
+
+    return Center(child: Consumer<NamUser>(builder: (context, user, child) {
       return Padding(
           padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
           child: ListView(
@@ -34,7 +83,7 @@ class _UserPageState extends State<UserPage> {
                   height: 100,
                   child: DropdownButton<bool>(
                     value: user.getSex(),
-                    onChanged: (bool newValue) {
+                    onChanged: (bool? newValue) {
                       user.setSex(newValue);
                     },
                     items: <bool>[false, true]
