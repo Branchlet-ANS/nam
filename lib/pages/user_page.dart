@@ -4,8 +4,27 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_auth/firebase_auth.dart';
-
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:google_sign_in/google_sign_in.dart';
 import '../data/user.dart';
+
+//Source: https://firebase.flutter.dev/docs/auth/social/
+Future<UserCredential> signInWithGoogle() async {
+  // Trigger the authentication flow
+  final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+  // Obtain the auth details from the request
+  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+  // Create a new credential
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
+  );
+
+  // Once signed in, return the UserCredential
+  return await FirebaseAuth.instance.signInWithCredential(credential);
+}
 
 class UserPage extends StatefulWidget {
   UserPage({Key? key}) : super(key: key);
@@ -67,6 +86,9 @@ class _UserPageState extends State<UserPage> {
           padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
           child: ListView(
             children: [
+              TextButton(
+                  onPressed: signInWithGoogle,
+                  child: Text("Sign in with Google")),
               SizedBox(height: 100),
               Text("Name"),
               Container(
