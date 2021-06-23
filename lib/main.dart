@@ -1,4 +1,5 @@
 // @dart=2.9
+import 'package:nam/pages/sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'data/data.dart';
@@ -52,7 +53,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   PageController _pageController = PageController();
-  List<Widget> _pages = [MealsPage(), UserPage()];
+  List<Widget> _pages = [MealsPage(), UserPage(), SignInDemo()];
   int _pageIndex = 0;
 
   void _onPageChanged(int index) {
@@ -80,6 +81,7 @@ class _MainPageState extends State<MainPage> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Google')
           ]),
     );
   }
